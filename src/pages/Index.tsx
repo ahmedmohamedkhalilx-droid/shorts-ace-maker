@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Sidebar } from "@/components/Sidebar";
 import { DashboardView } from "@/components/DashboardView";
-import { IdeaGenerator } from "@/components/IdeaGenerator";
-import { TitleOptimizer } from "@/components/TitleOptimizer";
-import { UploadChecklist } from "@/components/UploadChecklist";
-import { ContentCalendar } from "@/components/ContentCalendar";
+import { VideosView } from "@/components/VideosView";
+import { SuggestionsView } from "@/components/SuggestionsView";
+import { GrowthView } from "@/components/GrowthView";
+import { CompetitorView } from "@/components/CompetitorView";
 
-type View = "dashboard" | "ideas" | "optimizer" | "checklist" | "calendar";
+type View = "dashboard" | "videos" | "suggestions" | "growth" | "competitors";
 
 const Index = () => {
   const [activeView, setActiveView] = useState<View>("dashboard");
@@ -14,10 +14,10 @@ const Index = () => {
   const renderView = () => {
     switch (activeView) {
       case "dashboard": return <DashboardView />;
-      case "ideas": return <IdeaGenerator />;
-      case "optimizer": return <TitleOptimizer />;
-      case "checklist": return <UploadChecklist />;
-      case "calendar": return <ContentCalendar />;
+      case "videos": return <VideosView />;
+      case "suggestions": return <SuggestionsView />;
+      case "growth": return <GrowthView />;
+      case "competitors": return <CompetitorView />;
     }
   };
 

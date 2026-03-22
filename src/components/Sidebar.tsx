@@ -1,9 +1,9 @@
 import {
   LayoutDashboard,
+  PlaySquare,
   Lightbulb,
-  Type,
-  CheckSquare,
-  CalendarDays,
+  TrendingUp,
+  Users,
   Zap,
   Menu,
   X,
@@ -11,14 +11,14 @@ import {
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
-type View = "dashboard" | "ideas" | "optimizer" | "checklist" | "calendar";
+type View = "dashboard" | "videos" | "suggestions" | "growth" | "competitors";
 
 const navItems: { id: View; label: string; icon: React.ElementType }[] = [
-  { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { id: "ideas", label: "Idea Generator", icon: Lightbulb },
-  { id: "optimizer", label: "Title & Tags", icon: Type },
-  { id: "checklist", label: "Upload Checklist", icon: CheckSquare },
-  { id: "calendar", label: "Content Calendar", icon: CalendarDays },
+  { id: "dashboard", label: "Overview", icon: LayoutDashboard },
+  { id: "videos", label: "Video Analysis", icon: PlaySquare },
+  { id: "suggestions", label: "Suggestions", icon: Lightbulb },
+  { id: "growth", label: "Growth", icon: TrendingUp },
+  { id: "competitors", label: "Competitors", icon: Users },
 ];
 
 interface SidebarProps {
@@ -31,7 +31,6 @@ export function Sidebar({ activeView, onNavigate }: SidebarProps) {
 
   return (
     <>
-      {/* Mobile toggle */}
       <button
         onClick={() => setMobileOpen(!mobileOpen)}
         className="fixed top-4 left-4 z-50 md:hidden bg-card rounded-lg p-2 shadow-lg active:scale-95 transition-transform"
@@ -39,7 +38,6 @@ export function Sidebar({ activeView, onNavigate }: SidebarProps) {
         {mobileOpen ? <X size={20} /> : <Menu size={20} />}
       </button>
 
-      {/* Overlay */}
       {mobileOpen && (
         <div
           className="fixed inset-0 bg-foreground/20 z-30 md:hidden animate-fade-in"
@@ -47,7 +45,6 @@ export function Sidebar({ activeView, onNavigate }: SidebarProps) {
         />
       )}
 
-      {/* Sidebar */}
       <aside
         className={cn(
           "fixed md:sticky top-0 left-0 z-40 h-screen w-64 bg-card border-r border-border flex flex-col transition-transform duration-300 md:translate-x-0",
@@ -59,8 +56,8 @@ export function Sidebar({ activeView, onNavigate }: SidebarProps) {
             <Zap size={18} className="text-primary-foreground" />
           </div>
           <div>
-            <h1 className="text-base font-bold leading-tight">ShortsFlow</h1>
-            <p className="text-xs text-muted-foreground">YouTube Automation</p>
+            <h1 className="text-base font-bold leading-tight">TubeMonitor</h1>
+            <p className="text-xs text-muted-foreground">Channel Analytics</p>
           </div>
         </div>
 
@@ -89,9 +86,9 @@ export function Sidebar({ activeView, onNavigate }: SidebarProps) {
         </nav>
 
         <div className="p-4 m-3 rounded-lg bg-secondary">
-          <p className="text-xs font-semibold text-foreground">Monetization Tip</p>
+          <p className="text-xs font-semibold text-foreground">Quick Tip</p>
           <p className="text-xs text-muted-foreground mt-1">
-            Post 1 Short daily for 90 days to maximize algorithm reach.
+            Videos with custom thumbnails get 30% more clicks on average.
           </p>
         </div>
       </aside>
