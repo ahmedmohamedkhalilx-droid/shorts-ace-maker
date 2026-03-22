@@ -1,16 +1,36 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import { Sidebar } from "@/components/Sidebar";
+import { DashboardView } from "@/components/DashboardView";
+import { IdeaGenerator } from "@/components/IdeaGenerator";
+import { TitleOptimizer } from "@/components/TitleOptimizer";
+import { UploadChecklist } from "@/components/UploadChecklist";
+import { ContentCalendar } from "@/components/ContentCalendar";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+type View = "dashboard" | "ideas" | "optimizer" | "checklist" | "calendar";
+
+const Index = () => {
+  const [activeView, setActiveView] = useState<View>("dashboard");
+
+  const renderView = () => {
+    switch (activeView) {
+      case "dashboard": return <DashboardView />;
+      case "ideas": return <IdeaGenerator />;
+      case "optimizer": return <TitleOptimizer />;
+      case "checklist": return <UploadChecklist />;
+      case "calendar": return <ContentCalendar />;
+    }
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
+    <div className="flex min-h-screen bg-background">
+      <Sidebar activeView={activeView} onNavigate={setActiveView} />
+      <main className="flex-1 overflow-auto">
+        <div className="max-w-6xl mx-auto p-6 md:p-8">
+          {renderView()}
+        </div>
+      </main>
     </div>
   );
 };
-
-const Index = PlaceholderIndex;
 
 export default Index;
