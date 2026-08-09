@@ -1,0 +1,79 @@
+/* Resala brand tokens.
+ * Single source of truth for color and type. Import this rather than
+ * re-declaring hexes in each piece — a campaign that hardcodes #C9A227 in nine
+ * places is a campaign that can't be retuned.
+ * Contrast behaviour of these values is verified by scripts/check_contrast.py.
+ */
+
+:root {
+  /* Ground and ink */
+  --r-navy: #0F2A4A;
+  --r-navy-deep: #081A2E;
+  --r-navy-soft: #2A4A70;
+  --r-cream: #F6F1E4;
+  --r-cream-bright: #FCFAF3;
+  --r-sand: #E4DCC6;
+  --r-stone: #6B675C;
+
+  /* Accent */
+  --r-gold: #C9A227;         /* decoration on cream; text only on navy */
+  --r-gold-bright: #E3B84A;  /* gold that reads as text on navy */
+  --r-gold-deep: #7A5C10;    /* gold that reads as text on cream */
+
+  /* Semantic, derived to sit with gold rather than fight it */
+  --r-success: #4A7C59;
+  --r-warning: #B4762A;
+  --r-error: #9B3B2F;
+
+  /* Type. Families first, system fallbacks after, so output degrades
+   * predictably where webfonts can't be fetched (e.g. Artifacts). */
+  --r-display: "Source Serif 4", "Amiri", Georgia, "Times New Roman", serif;
+  --r-display-alt: "IBM Plex Sans", "Tajawal", system-ui, sans-serif;
+  --r-text: "IBM Plex Sans", "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --r-arabic-display: "Amiri", "Source Serif 4", serif;
+  --r-arabic-text: "IBM Plex Sans Arabic", "IBM Plex Sans", system-ui, sans-serif;
+
+  /* Poster scale — 1.25 ratio. Divide display steps by ~1.6 for screen. */
+  --r-display-xl: 4.5rem;
+  --r-display-l: 3.5rem;
+  --r-display-m: 2.875rem;
+  --r-heading: 2.25rem;
+  --r-lead: 1.8rem;
+  --r-body: 1.45rem;
+  --r-small: 1.125rem;
+  --r-micro: 0.9375rem;
+
+  /* Rhythm. Spacing is an 8px scale; the margin token is the one that keeps
+   * a series looking like a series. */
+  --r-space-1: 0.5rem;
+  --r-space-2: 1rem;
+  --r-space-3: 1.5rem;
+  --r-space-4: 2rem;
+  --r-space-6: 3rem;
+  --r-space-8: 4rem;
+  --r-margin: 7%;            /* poster edge margin, as % of short side */
+  --r-rule: 3px;             /* gold rule weight at poster scale */
+  --r-radius: 0;             /* the brand is square-cornered; see layouts.md */
+}
+
+/* Arabic needs looser leading than Latin at the same size — diacritics and
+ * descenders collide otherwise. */
+[lang="ar"],
+[dir="rtl"] {
+  font-family: var(--r-arabic-text);
+  line-height: 1.75;
+  letter-spacing: 0; /* never track Arabic; it breaks the letter joins */
+}
+
+[lang="ar"] .r-display,
+[dir="rtl"] .r-display {
+  font-family: var(--r-arabic-display);
+  font-size: 1.15em; /* optical match to Latin display at the same step */
+}
+
+.r-display {
+  font-family: var(--r-display);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}

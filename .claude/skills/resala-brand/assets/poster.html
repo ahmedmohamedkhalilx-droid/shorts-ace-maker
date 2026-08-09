@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Resala poster template</title>
+<!-- Local fonts first: rendering must not depend on a network fetch, or a
+     blocked request yields a fallback-font poster that looks almost right.
+     Regenerate with scripts/vendor_fonts.py. -->
+<link rel="stylesheet" href="./fonts.css">
+<link rel="stylesheet" href="./tokens.css">
+<style>
+  /* Cream-ground poster: navy headline, one gold rule, navy footer band.
+     Sized for --preset portrait (1080x1350). The layout is proportional, so
+     the same file renders correctly at a3/a4 — only the root font-size scales. */
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  /* Type is sized against the frame width, not in fixed pixels, so this one
+     file renders at identical proportions from 1080px social up to A3 at
+     300dpi. Fixed px would leave the poster looking empty at print sizes. */
+  html { font-size: 2.2vw; }
+
+  body {
+    width: 100vw;
+    height: 100vh;
+    background: var(--r-cream);
+    color: var(--r-navy);
+    font-family: var(--r-arabic-text);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .stage {
+    flex: 1;
+    padding: var(--r-margin);
+    display: flex;
+    flex-direction: column;
+    /* Anchor the text block low, against the footer band. Centring it leaves
+       matched gaps top and bottom, which reads as an accident; a deliberate
+       open field above the headline reads as composition. */
+    justify-content: flex-end;
+    gap: var(--r-space-3);
+    padding-bottom: var(--r-space-8);
+  }
+
+  .eyebrow {
+    font-size: var(--r-small);
+    font-weight: 600;
+    letter-spacing: 0;
+    color: var(--r-gold-deep); /* gold at text weight — never --r-gold here */
+  }
+
+  h1 {
+    font-family: var(--r-arabic-display);
+    font-size: calc(var(--r-display-l) * 1.15); /* Arabic optical correction */
+    font-weight: 700;
+    /* Amiri carries tall ascenders and stacked diacritics; at Latin display
+       leading (~1.05) the fatha on one line lands on the letters above it. */
+    line-height: 1.45;
+    max-width: 16ch;
+  }
+
+  /* The one gold element: a rule under the headline, width of the text block. */
+  .rule {
+    width: 38%;
+    height: var(--r-rule);
+    background: var(--r-gold);
+  }
+
+  .body {
+    font-size: var(--r-body);
+    line-height: 1.75;
+    max-width: 34ch; /* Arabic reads long; keep lines short */
+    color: var(--r-navy);
+  }
+
+  /* Latin inside an RTL document keeps its own direction and family. */
+  .latin { font-family: var(--r-text); direction: ltr; unicode-bidi: isolate; }
+
+  .footer {
+    background: var(--r-navy);
+    color: var(--r-cream);
+    padding: var(--r-space-3) var(--r-margin);
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--r-space-3);
+  }
+
+  .wordmark {
+    font-family: var(--r-arabic-display);
+    font-size: var(--r-heading);
+    font-weight: 700;
+    color: var(--r-cream);
+  }
+
+  .meta {
+    font-size: var(--r-micro);
+    color: var(--r-cream);
+    opacity: 0.8;
+    text-align: left;
+    direction: ltr;
+  }
+</style>
+</head>
+<body>
+  <main class="stage">
+    <p class="eyebrow">حملة التبرع السنوية</p>
+    <h1>كل مساهمة تصنع فرقًا حقيقيًا</h1>
+    <div class="rule"></div>
+    <p class="body">
+      انضم إلى آلاف المتطوعين الذين يقدمون الدعم لأسر تحتاج إليه، في أكثر من
+      ستين فرعًا حول الجمهورية.
+    </p>
+  </main>
+
+  <footer class="footer">
+    <span class="wordmark">رسالة</span>
+    <span class="meta latin">resala.org &middot; @resala</span>
+  </footer>
+</body>
+</html>
