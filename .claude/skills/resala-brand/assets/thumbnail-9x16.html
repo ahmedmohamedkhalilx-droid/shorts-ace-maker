@@ -5,14 +5,16 @@
 <title>Resala AUC — 9:16 photo thumbnail</title>
 <link rel="stylesheet" href="./fonts.css">
 <style>
-  /* 1080x1920 story/thumbnail: headline on cream over a duotone photo band
-     with a torn top edge. Colours sampled from the printed reference — the
-     board's ivory reads as white beside the real work. */
+  /* 1080x1920 story / thumbnail.
+     Cream ground, torn blue corners at top-right and bottom-left, and a
+     duotone photo cutout pushed right of centre so it sits between them.
+     Colours sampled from the printed reference — the brand board's ivory
+     reads as white beside the real work. */
   :root {
-    --cream:   #FBF4EE;   /* set above target; the grain multiplies it down */
-    --royal:   #002377;
-    --sky:     #96C0F0;
-    --yellow:  #FAB533;
+    --cream:  #FBF4EE;   /* set above target; the grain multiplies it down */
+    --royal:  #002377;
+    --sky:    #96C0F0;
+    --yellow: #FAB533;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -31,10 +33,10 @@
     opacity: 0.15; mix-blend-mode: multiply;
   }
 
-  .logo { position: absolute; top: 4.6%; left: 7%; width: 15%; z-index: 6; }
+  .logo { position: absolute; top: 4.4%; left: 7%; width: 15%; z-index: 6; }
   .logo img { display: block; width: 100%; }
 
-  .headline { position: absolute; top: 17%; left: 7%; z-index: 6; }
+  .headline { position: absolute; top: 16%; left: 7%; z-index: 6; }
   .line {
     display: block;
     color: var(--royal);
@@ -48,7 +50,8 @@
     transform-origin: left top;
   }
 
-  .asterisk { position: absolute; top: 33%; right: 9%; width: 15%; z-index: 6; }
+  /* Sits in the open cream to the left of the photo block. */
+  .asterisk { position: absolute; top: 54%; left: 8%; width: 15%; z-index: 6; }
 </style>
 </head>
 <body>
@@ -61,24 +64,39 @@
         <feDisplacementMap in="SourceGraphic" in2="n" scale="30"
                            xChannelSelector="R" yChannelSelector="G"/>
       </filter>
-      <!-- The photo is masked by the torn shape rather than clipped to a
-           polygon, so the boundary reads as fibre. -->
+      <filter id="tear2" x="-10%" y="-10%" width="120%" height="120%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.014 0.022"
+                      numOctaves="5" seed="61" result="n"/>
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="26"
+                           xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+      <!-- The photo is masked by a torn shape rather than clipped to a
+           polygon, so its edge reads as fibre rather than as a cut. -->
       <mask id="photoMask">
         <path fill="#fff" filter="url(#tear)"
-              d="M-60,1128 L1140,865 L1140,1990 L-60,1990 Z"/>
+              d="M400,884 L1240,850 L1240,1602 L414,1568 Z"/>
       </mask>
     </defs>
 
-    <!-- Sky wedge peeking along the tear, as in the reference -->
-    <g filter="url(#tear)">
-      <path fill="#96C0F0" d="M-60,1109 L1140,846 L1140,913 L-60,1176 Z"/>
+    <!-- Top-right torn corner: cream -> white lip -> sky -> royal outward -->
+    <g filter="url(#tear2)">
+      <path fill="#FFFFFF" d="M648,-40 L1120,462 L1120,432 L672,-40 Z"/>
+      <path fill="#002377" d="M660,-40 L1120,-40 L1120,470 Z"/>
+      <path fill="#96C0F0" d="M660,-40 L1120,470 L1120,372 L784,-40 Z"/>
     </g>
 
-    <!-- Torn white lip: the frayed edge the paper leaves where it was pulled -->
-    <path fill="#FFFFFF" filter="url(#tear)"
-          d="M-60,1119 L1140,856 L1140,923 L-60,1186 Z"/>
+    <!-- Bottom-left torn corner, mirrored -->
+    <g filter="url(#tear2)">
+      <path fill="#FFFFFF" d="M-40,1438 L432,1960 L404,1960 L-40,1468 Z"/>
+      <path fill="#002377" d="M-40,1450 L420,1960 L-40,1960 Z"/>
+      <path fill="#96C0F0" d="M-40,1450 L420,1960 L306,1960 L-40,1552 Z"/>
+    </g>
 
-    <image href="./photo-duotone.png" x="0" y="860" width="1080" height="1060"
+    <!-- Duotone photo block, pushed right of centre and bleeding off the
+         right edge so it reads as placed rather than framed. -->
+    <path fill="#FFFFFF" filter="url(#tear)"
+          d="M390,874 L1250,840 L1250,1612 L404,1578 Z"/>
+    <image href="./photo-duotone.png" x="400" y="850" width="820" height="762"
            preserveAspectRatio="xMidYMid slice" mask="url(#photoMask)"/>
   </svg>
 
