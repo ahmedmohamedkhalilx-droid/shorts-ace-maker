@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Resala AUC — 9:16 statement post</title>
+<link rel="stylesheet" href="./fonts.css">
+<style>
+  /* 1080x1920 statement post.
+     Colours are sampled from the printed reference rather than taken from the
+     brand board: the board's ivory (#FDF9F3) reads as white next to the real
+     work, which runs a warmer #F5EEE6, and the poster royal and yellow are both
+     deeper and more saturated than the board values. See the note in
+     references/palette.md. */
+
+  :root {
+    --cream:      #FBF4EE;  /* warm paper — NOT white. Set above the target
+                             so the multiply grain lands it on #F5EEE6. */
+    --cream-lip:  #FBF7F1;  /* the frayed lip along a tear */
+    --royal:      #002377;  /* headline / deepest field */
+    --royal-mid:  #03297E;
+    --sky:        #96C0F0;
+    --blue-soft:  #5C89CD;  /* the secondary headline word */
+    --yellow:     #FAB533;
+    --dot:        #2452A8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 100vw; height: 100vh;
+    background: var(--royal-mid);
+    overflow: hidden;
+    position: relative;
+    font-family: "Bebas Neue", "Anton", "Arial Narrow", sans-serif;
+  }
+
+  .art { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+  /* Fibrous paper grain over the whole piece. Generated rather than tiled, so
+     it never repeats visibly at poster scale. This is what stops the cream
+     reading as flat digital fill. */
+  .grain {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 8;
+    opacity: 0.15;
+    mix-blend-mode: multiply;
+  }
+
+  .logo {
+    position: absolute; top: 5.4%; left: 7%;
+    width: 19%; z-index: 6;
+  }
+  .logo img { display: block; width: 100%; }
+
+  .asterisk { position: absolute; top: 12.5%; right: 8%; width: 17%; z-index: 6; }
+  .arrow    { position: absolute; bottom: 13%; left: 8%;  width: 20%; z-index: 6; }
+
+  /* Diamond scatter, densest at the core and thinning outward — the reference
+     patches fade rather than stopping at an edge. */
+  .dots {
+    position: absolute; z-index: 5;
+    background-image: radial-gradient(var(--dot) 26%, transparent 27%);
+    background-size: 2.1vmin 2.1vmin;
+    transform: rotate(45deg);
+    -webkit-mask-image: radial-gradient(closest-side, #000 20%, rgba(0,0,0,0.45) 60%, transparent 100%);
+    mask-image: radial-gradient(closest-side, #000 20%, rgba(0,0,0,0.45) 60%, transparent 100%);
+  }
+  .dots--l { left: -2%; top: 26%; width: 22%; height: 15%; }
+  .dots--r { right: -3%; bottom: 22%; width: 24%; height: 16%; }
+
+  .headline {
+    position: absolute;
+    left: 8%; right: 8%;
+    top: 30%;
+    z-index: 7;
+  }
+  .line {
+    display: block;
+    font-size: 23vmin;
+    line-height: 0.87;          /* condensed caps, set tight */
+    letter-spacing: -0.005em;
+    color: var(--royal);
+    text-transform: uppercase;
+  }
+  .line--soft { color: var(--blue-soft); font-size: 18vmin; }
+
+  .swipe { display: block; width: 52%; margin-top: 1.2vmin; margin-left: 0.4vmin; }
+</style>
+</head>
+<body>
+
+  <svg class="art" viewBox="0 0 1080 1920" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <!-- Roughens an edge into a fibrous tear. A polygon with hand-placed
+           points always reads as a zigzag; displacing it by turbulence gives
+           the irregular, slightly furry edge torn paper actually has. -->
+      <filter id="tear" x="-8%" y="-8%" width="116%" height="116%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.013 0.021"
+                      numOctaves="5" seed="17" result="n"/>
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="34"
+                           xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+      <filter id="tear2" x="-8%" y="-8%" width="116%" height="116%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.015 0.024"
+                      numOctaves="5" seed="42" result="n"/>
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="30"
+                           xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+    </defs>
+
+    <!-- Sky wedges sitting on the royal ground, revealed by the torn corners -->
+    <g filter="url(#tear2)">
+      <path fill="#96C0F0" d="M600,0 L800,0 L1080,392 L1080,470 Z"/>
+      <path fill="#96C0F0" d="M0,1505 L0,1648 L296,1920 L415,1920 Z"/>
+    </g>
+
+    <!-- The cream sheet. Its two cut corners are what expose the blues. -->
+    <g filter="url(#tear)">
+      <path fill="#FBF7F1" d="M0,-6 L612,-6 L1092,455 L1092,1926 L404,1926 L-6,1512 Z"/>
+      <path fill="#FBF4EE" d="M0,0 L600,0 L1080,462 L1080,1920 L410,1920 L0,1505 Z"/>
+    </g>
+  </svg>
+
+  <!-- Paper texture passes -->
+  <svg class="grain" aria-hidden="true">
+    <filter id="g1">
+      <feTurbulence type="fractalNoise" baseFrequency="0.82" numOctaves="4" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+    <rect width="100%" height="100%" filter="url(#g1)"/>
+  </svg>
+
+  <div class="logo"><img src="./logo.png" alt="Resala AUC"></div>
+
+  <div class="dots dots--l" aria-hidden="true"></div>
+  <div class="dots dots--r" aria-hidden="true"></div>
+
+  <svg class="asterisk" viewBox="0 0 100 100" aria-hidden="true">
+    <g stroke="#FAB533" stroke-width="10" stroke-linecap="round">
+      <path d="M50 5 L50 95"/><path d="M12 19 L88 81"/>
+      <path d="M88 19 L12 81"/><path d="M5 50 L95 50"/>
+    </g>
+  </svg>
+
+  <div class="headline">
+    <span class="line">On time</span>
+    <span class="line">is</span>
+    <span class="line line--soft">Late.</span>
+    <svg class="swipe" viewBox="0 0 300 16" fill="none" aria-hidden="true">
+      <path d="M5 11 C62 4, 120 14, 178 7 C226 2, 264 12, 295 6"
+            stroke="#FAB533" stroke-width="8" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <svg class="arrow" viewBox="0 0 200 150" fill="none" aria-hidden="true">
+    <path d="M10 140 C36 98, 22 72, 52 60 C78 49, 88 74, 112 64 C136 54, 146 36, 164 24"
+          stroke="#2E5AA8" stroke-width="8" stroke-linecap="round"/>
+    <path d="M132 20 L168 18 L162 54" stroke="#2E5AA8" stroke-width="8"
+          stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+
+</body>
+</html>
