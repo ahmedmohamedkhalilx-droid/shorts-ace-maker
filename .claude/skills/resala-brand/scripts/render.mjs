@@ -93,6 +93,7 @@ function parseArgs(argv) {
     else if (a === "--width") args.width = Number(argv[++i]);
     else if (a === "--height") args.height = Number(argv[++i]);
     else if (a === "--scale") args.scale = Number(argv[++i]);
+    else if (a === "--transparent") args.transparent = true;
     else if (a === "--png") args.png = true;
     else if (a === "--pdf") args.pdf = true;
     else if (a.startsWith("--")) throw new Error(`Unknown flag: ${a}`);
@@ -164,7 +165,13 @@ async function main() {
   const written = [];
   if (wantPng) {
     const out = `${outBase}.png`;
-    await page.screenshot({ path: out, clip: { x: 0, y: 0, width, height } });
+    // --transparent keeps the page background out of the PNG, so type and marks
+    // can be rendered as an overlay to composite onto existing artwork.
+    await page.screenshot({
+      path: out,
+      clip: { x: 0, y: 0, width, height },
+      omitBackground: Boolean(args.transparent),
+    });
     written.push(out);
   }
   if (wantPdf) {

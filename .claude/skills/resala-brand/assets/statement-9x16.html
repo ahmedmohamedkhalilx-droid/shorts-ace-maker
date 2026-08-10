@@ -49,13 +49,14 @@
   }
 
   .logo {
-    position: absolute; top: 5.4%; left: 7%;
+    position: absolute; top: 6%; left: 50%;
+    transform: translateX(-50%);
     width: 19%; z-index: 6;
   }
   .logo img { display: block; width: 100%; }
 
-  .asterisk { position: absolute; top: 12.5%; right: 8%; width: 17%; z-index: 6; }
-  .arrow    { position: absolute; bottom: 13%; left: 8%;  width: 20%; z-index: 6; }
+  .asterisk { position: absolute; top: 19%; right: 7%; width: 16%; z-index: 6; }
+  .arrow    { position: absolute; bottom: 15%; left: 7%;  width: 19%; z-index: 6; }
 
   /* Diamond scatter, densest at the core and thinning outward — the reference
      patches fade rather than stopping at an edge. */
@@ -67,13 +68,16 @@
     -webkit-mask-image: radial-gradient(closest-side, #000 20%, rgba(0,0,0,0.45) 60%, transparent 100%);
     mask-image: radial-gradient(closest-side, #000 20%, rgba(0,0,0,0.45) 60%, transparent 100%);
   }
-  .dots--l { left: -2%; top: 26%; width: 22%; height: 15%; }
-  .dots--r { right: -3%; bottom: 22%; width: 24%; height: 16%; }
+  .dots--l { left: -1%; top: 24%; width: 21%; height: 14%; }
+  .dots--r { right: -2%; bottom: 24%; width: 22%; height: 15%; }
 
+  /* Centred composition: the type block spans the full measure and the lines
+     centre within it, so the stack sits on the sheet's vertical axis. */
   .headline {
     position: absolute;
-    left: 8%; right: 8%;
-    top: 30%;
+    left: 6%; right: 6%;
+    top: 31%;
+    text-align: center;
     z-index: 7;
   }
   .line {
@@ -86,7 +90,7 @@
   }
   .line--soft { color: var(--blue-soft); font-size: 18vmin; }
 
-  .swipe { display: block; width: 52%; margin-top: 1.2vmin; margin-left: 0.4vmin; }
+  .swipe { display: block; width: 46%; margin: 1.4vmin auto 0; }
 </style>
 </head>
 <body>
@@ -110,16 +114,26 @@
       </filter>
     </defs>
 
-    <!-- Sky wedges sitting on the royal ground, revealed by the torn corners -->
+    <!-- Sky bands hugging each tear, with the deepest royal left exposed at
+         the corners. The two diagonals carry the composition; the top-left and
+         bottom-right cuts are deliberately shallower, because four cuts of
+         equal depth turn the sheet into a bevelled lozenge with a blue frame
+         round it rather than a sheet of paper with its corners torn off. -->
     <g filter="url(#tear2)">
-      <path fill="#96C0F0" d="M600,0 L800,0 L1080,392 L1080,470 Z"/>
-      <path fill="#96C0F0" d="M0,1505 L0,1648 L296,1920 L415,1920 Z"/>
+      <path fill="#96C0F0" d="M0,215 L215,0 L118,0 L0,118 Z"/>
+      <path fill="#96C0F0" d="M790,0 L1080,250 L1080,176 L902,0 Z"/>
+      <path fill="#96C0F0" d="M1080,1740 L880,1920 L978,1920 L1080,1826 Z"/>
+      <path fill="#96C0F0" d="M0,1680 L360,1920 L238,1920 L0,1762 Z"/>
     </g>
 
-    <!-- The cream sheet. Its two cut corners are what expose the blues. -->
+    <!-- The cream sheet, with all four corners torn away. The straight runs
+         bleed past the canvas: the displacement filter pushes every edge it
+         touches, so an edge sitting exactly on the frame gets nibbled inward
+         and leaks a thin blue line down the sides, which reads as a border
+         rather than as corners torn off a sheet. -->
     <g filter="url(#tear)">
-      <path fill="#FBF7F1" d="M0,-6 L612,-6 L1092,455 L1092,1926 L404,1926 L-6,1512 Z"/>
-      <path fill="#FBF4EE" d="M0,0 L600,0 L1080,462 L1080,1920 L410,1920 L0,1505 Z"/>
+      <path fill="#FBF7F1" d="M-40,222 L210,-40 L796,-40 L1120,244 L1120,1746 L886,1960 L356,1960 L-40,1674 Z"/>
+      <path fill="#FBF4EE" d="M-40,215 L215,-40 L790,-40 L1120,250 L1120,1740 L880,1960 L360,1960 L-40,1680 Z"/>
     </g>
   </svg>
 
