@@ -1,88 +1,134 @@
-# Resala layouts
+# Resala AUC layout and style
+
+This is a **torn-paper collage** system. Every piece is built from layered paper
+shapes with rough edges, duotone photo cutouts, halftone dot fields, and
+hand-drawn marks — assembled on a warm ivory ground with a huge royal headline
+over the top. It reads as made by hand, deliberately, and that warmth is the
+point for a student volunteer organisation.
+
+The failure mode is a clean, flat, corporate layout that uses the right colors.
+Right palette plus wrong texture is still off-brand.
 
 ## Formats
 
 | Format | Pixels | Notes |
 | --- | --- | --- |
-| Print poster A3 | 3508 × 4961 @300dpi | Add 3mm bleed (35px) if going to a printer |
-| Print poster A4 | 2480 × 3508 @300dpi | |
-| Social portrait | 1080 × 1350 | Instagram/Facebook feed default |
-| Social square | 1080 × 1080 | |
+| Social square | 1080 × 1080 | The primary format |
+| Social portrait | 1080 × 1350 | |
 | Story / Reel / Short | 1080 × 1920 | See safe areas below |
-| Deck | 1920 × 1080 | 16:9 |
-| Web hero | fluid | Divide display type steps by ~1.6 |
+| Print poster A3 | 3508 × 4961 @300dpi | Add 3mm bleed (35px) for a printer |
+| Deck | 1920 × 1080 | |
 
-## The grid
+## The recipe
 
-A 12-column grid with a `--r-margin` (7% of the short side) edge margin, and a
-gutter of `--r-space-4`. Posters use 3 or 4 of those columns for a text block —
-full-width text at poster scale gives line lengths nobody reads.
+Nearly every reference piece is the same five moves:
 
-Target **45–75 characters per line** for Latin. Arabic runs longer per character,
-so aim for the lower end, around 45–60.
+1. **Ivory ground** with a subtle paper texture.
+2. **One or two torn-paper fields** in royal or sky, entering from a corner or
+   edge — never centered, never a full rectangle.
+3. **A duotone photo cutout** with a torn or rough edge, overlapping the fields.
+4. **The headline** in huge royal condensed caps, left-aligned, stacked tight,
+   overlapping the photo or field slightly so the layers interlock.
+5. **Two or three yellow marks**: an underline swipe beneath the headline, a
+   six-pointed asterisk, a squiggle or arrow.
 
-**Square corners.** `--r-radius` is 0. The palette is already warm; rounded
-corners on top of cream and gold tips the whole thing into softness. Photographs
-and avatars are the exception — those may be circular.
+Plus the logo lockup (icon over `RESALA` over `AUC`) in a corner, and often a
+small uppercase Montserrat label opposite it.
 
-## Vertical video safe areas (1080 × 1920)
+## Torn paper
 
-Platform chrome eats the edges, and it eats different amounts per platform. These
-are conservative numbers that survive YouTube Shorts, Reels and TikTok at once —
-worth using unless the piece is for one platform only:
+The signature element. Edges are irregular, slightly fibrous, with a faint white
+lip on the tear. Fields overlap and cast no shadow — this is paper laid flat, not
+floating cards.
 
-- **Top**: keep the first **220px** clear of anything load-bearing.
-- **Bottom**: keep the last **520px** clear. Titles, handles and CTAs live here on
-  every platform.
-- **Right**: keep the right **160px** clear — the action-button rail.
-- That leaves a **920 × 1180** working area, offset toward the upper-left.
+In HTML, use an SVG path with an irregular edge as a `clip-path`, or a PNG mask.
+A straight-edged `div` with a background color is the single most common way this
+system gets flattened into something generic. If a piece genuinely can't carry a
+torn edge, prefer a hard diagonal over a plain rectangle.
 
-Center the key message in that working area, not in the frame. A headline
-centered in the raw 1080×1920 frame sits underneath the caption on Shorts.
+Shapes enter from an edge and bleed off it. A torn field floating fully inside
+the frame with margin all around looks like a mistake.
 
-## Compositions that hold
+## Marks and doodles
 
-**Poster, cream ground.** Cream field, navy headline set left at Display XL/L
-across 4 columns, a `--r-rule` gold rule directly beneath the headline running
-the width of the text block, body in navy at Body, and a navy footer band at the
-bottom carrying the logo and details in cream. The gold rule is the only gold —
-that's enough.
+Drawn in yellow, occasionally royal. All hand-made in character — uneven stroke,
+slight wobble, never geometrically perfect:
 
-**Poster, navy ground.** Navy or navy-deep field, cream headline, one gold
-element: either a gold-bright figure (a number, a date) or a gold block behind a
-short line of navy type. Cream body at 80% opacity if it needs to recede.
+- **Underline swipe** — under a headline or key phrase, 60–90% of the line width
+- **Six-pointed asterisk / starburst** — the most-used mark, usually yellow, one
+  or two per composition
+- **Squiggle** — a loose `zigzag` or `~~~` in royal or yellow
+- **Arrow** — hand-drawn, curving, pointing at a CTA or subject
+- **Triple slash** `///` — in yellow or royal, a corner accent
+- **Dotted halftone grid** — a rectangular or torn patch of dots in royal or sky
 
-**Split.** A hard horizontal edge at 1/3 or 2/3 — navy above, cream below, or
-reversed. No gradient across the edge. Type does not straddle it.
+Two or three marks per composition. Every corner having one turns the layout to
+noise.
 
-**Gold block.** A filled `--r-gold` rectangle with `--r-navy` type inside it
-(5.99:1, verified). This is how gold carries text. Keep the block under ~10% of
-the composition.
+## Rounded elements
 
-## Data and charts
-
-Series order: navy → gold → navy-soft → gold-deep → stone. Grid lines in `sand`
-at 1px, axis labels in `stone` at Small, value labels in navy.
-
-Never encode meaning in gold alone — a gold and navy pie chart is unreadable to
-anyone with the sheet printed in grayscale, and gold at 2.15:1 against cream is
-already marginal. Label directly on the mark instead of relying on a legend.
+Unlike the flat-paper fields, **circular badges are part of the system**: story
+highlight covers are circles with a 2px royal ring on ivory or sky, holding a
+line icon. Sticky-note and tape elements have slightly rounded corners and a
+small rotation (1–3°). Rotation on paper elements is on-brand; rotation on type
+is not.
 
 ## Photography
 
-Duotone toward navy for backgrounds behind type — full-color photography and a
-gold accent in the same frame competes. Keep full color for the subject of a
-piece (people, events), and give it its own zone rather than running type over it.
+Duotone, royal shadows to ivory/sky highlights — the `.r-duotone` recipe in
+`tokens.css`. Subject matter is documentary: volunteers with children, hands
+stacked in a circle, group shots from behind, candid smiles. Cut out along a torn
+edge rather than placed in a rectangle.
 
-If type must sit over a photograph, use a navy scrim at 70% opacity rather than a
-text shadow. Scrims stay consistent across a series; shadows don't.
+Set type **over** the duotone directly in ivory or yellow — both clear 4.5:1
+against royal. No scrim needed, which is why the duotone is mapped that dark.
+
+## Vertical safe areas (1080 × 1920)
+
+Conservative numbers that survive Shorts, Reels and TikTok at once:
+
+- **Top**: first **220px** clear of anything load-bearing
+- **Bottom**: last **520px** clear — titles, handles and CTAs live here
+- **Right**: right **160px** clear — the action-button rail
+- Leaves a **920 × 1180** working area, offset toward the upper-left
+
+Center the message in that working area, not in the frame.
+
+## Reformatting a layout
+
+A composition built for a square does not survive being poured into 1080×1920 on
+its own. Two things have to move:
+
+- **Type scales against the short side** (`vmin`), never the height. See
+  `references/typography.md`.
+- **Composition shifts up.** The bands, footer and marks all need to clear the
+  bottom 520px. A square layout's footer sits in exactly the region a Reel
+  caption covers.
+
+The template handles this with a `@media (max-aspect-ratio: 4/5)` branch. Copy
+that pattern rather than rebuilding, and always render the vertical crop and look
+at it — safe-area violations are invisible in markup and obvious in the image.
+
+## Stat and impact blocks
+
+A row of figures: large royal number (Display M), small uppercase charcoal label
+beneath (Caption), line icon above. Reference sets use `1,250+ BENEFICIARIES`,
+`340+ VOLUNTEERS`, `45+ PROJECTS`. Separate with thin royal rules, not boxes.
+
+## Voice
+
+Short declaratives in caps with a full stop. `SERVE. EMPOWER. INSPIRE.` /
+`TOGETHER, WE CAN MOVE MOUNTAINS.` / `SMALL ACTIONS, BIG CHANGE.` /
+`it starts with us.` — the lowercase handwritten-feeling lines appear on sticky
+notes and tape, as a deliberate counterpoint to the shouting display type.
 
 ## What makes it stop looking like Resala
 
-- Gold used as a large background field
-- Gold text on cream (2.15:1 — see `palette.md`)
-- Rounded corners on panels and buttons
-- Three grounds in one composition
-- Centered body text under a left-aligned headline
-- Arabic and Latin at the same nominal size, so the Arabic reads small
-- Drop shadows, gradients, glows — the palette does the work
+- Flat rectangles instead of torn paper
+- Timid headline sizing — display type must dominate
+- Yellow or sky used as type (1.62:1 and 1.50:1 on ivory)
+- Full-color photography instead of duotone
+- Centered or justified headlines
+- Drop shadows and floating cards — the paper lies flat
+- Marks in every corner
+- Charcoal headlines; headlines are royal

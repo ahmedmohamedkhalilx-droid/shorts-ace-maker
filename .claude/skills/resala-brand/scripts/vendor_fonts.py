@@ -31,10 +31,16 @@ UA_WOFF2 = (
 )
 
 FAMILIES = [
-    ("Source Serif 4", "Source+Serif+4:opsz,wght@8..60,600;8..60,700"),
-    ("Amiri", "Amiri:wght@400;700"),
-    ("IBM Plex Sans", "IBM+Plex+Sans:wght@400;500;600"),
-    ("IBM Plex Sans Arabic", "IBM+Plex+Sans+Arabic:wght@400;500;600"),
+    # Display — both condensed faces the brand boards name, so a piece can be
+    # switched between them without re-vendoring.
+    ("Bebas Neue", "Bebas+Neue"),
+    ("Anton", "Anton"),
+    # Text
+    ("Montserrat", "Montserrat:wght@400;500;600;700;800"),
+    ("Poppins", "Poppins:wght@400;500;600;700"),
+    # Arabic companion. Not present in the reference material — see
+    # references/typography.md before using it.
+    ("Cairo", "Cairo:wght@400;600;700"),
 ]
 
 

@@ -14,35 +14,30 @@ Usage:
 import sys
 
 PALETTE = {
-    "navy": "#0F2A4A",
-    "navy-deep": "#081A2E",
-    "navy-soft": "#2A4A70",
-    "gold": "#C9A227",
-    "gold-bright": "#E3B84A",
-    "gold-deep": "#7A5C10",
-    "cream": "#F6F1E4",
-    "cream-bright": "#FCFAF3",
-    "sand": "#E4DCC6",
-    "stone": "#6B675C",
+    "royal": "#0C2C80",      # Charity Royal Blue
+    "sky": "#A7D4F2",        # Sky Blue
+    "sky-alt": "#BFE1F2",    # Sky Blue as given on the newer board
+    "yellow": "#EAC262",     # Sunshine Yellow
+    "ivory": "#FDF9F3",      # Warm Ivory
+    "charcoal": "#1B1F23",   # Charcoal
 }
 
 # (foreground, background, intended role, minimum ratio)
 # 4.5 = body text, 3.0 = large display text (>=24px bold / >=32px regular)
 # and non-text UI such as rules, icons and borders.
 PAIRS = [
-    ("navy", "cream", "body text on cream ground", 4.5),
-    ("navy", "cream-bright", "body text on bright cream", 4.5),
-    ("navy", "sand", "text on sand panel", 4.5),
-    ("navy", "gold", "text on a gold block", 4.5),
-    ("cream", "navy", "body text on navy ground", 4.5),
-    ("cream", "navy-deep", "body text on deep navy", 4.5),
-    ("gold", "navy", "display text / rules on navy", 3.0),
-    ("gold-bright", "navy", "display text on navy", 4.5),
-    ("gold-bright", "navy-deep", "display text on deep navy", 4.5),
-    ("gold-deep", "cream", "text-weight gold on cream", 4.5),
-    ("gold", "cream", "gold as TEXT on cream (expected to FAIL)", 4.5),
-    ("stone", "cream", "secondary/caption text on cream", 4.5),
-    ("navy-soft", "cream", "secondary text on cream", 4.5),
+    ("royal", "ivory", "headlines and body on ivory ground", 4.5),
+    ("royal", "sky", "text on a sky-blue field", 4.5),
+    ("royal", "sky-alt", "text on the lighter sky-blue field", 4.5),
+    ("royal", "yellow", "text on a yellow highlight / tape / block", 4.5),
+    ("charcoal", "ivory", "long-form body copy on ivory", 4.5),
+    ("charcoal", "sky", "text on a sky-blue field", 4.5),
+    ("ivory", "royal", "reversed text on royal ground", 4.5),
+    ("sky", "royal", "secondary text on royal ground", 4.5),
+    ("yellow", "royal", "display text and marks on royal ground", 4.5),
+    ("yellow", "charcoal", "display text on charcoal", 4.5),
+    ("yellow", "ivory", "yellow as TEXT on ivory (expected to FAIL)", 4.5),
+    ("sky", "ivory", "sky as TEXT on ivory (expected to FAIL)", 4.5),
 ]
 
 

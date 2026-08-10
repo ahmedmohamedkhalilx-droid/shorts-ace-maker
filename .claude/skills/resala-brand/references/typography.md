@@ -1,94 +1,99 @@
-# Resala typography
+# Resala AUC typography
 
-The work is bilingual, so the type system has to be specified as pairs. A Latin
-font chosen alone and an Arabic font bolted on later never share a texture — the
-Arabic ends up lighter and smaller-looking than the Latin beside it, which is the
-single most common tell of a translated-looking layout rather than a bilingual one.
+The voice of this brand is a **very large condensed capital headline** in royal
+blue, set tight, usually stacked over two or three lines, taking up a third to a
+half of the composition. That single decision does most of the branding work. The
+supporting text is a quiet geometric sans that stays out of its way.
+
+Headlines are short declaratives, set in caps with a full stop: `SERVE. EMPOWER.
+INSPIRE.` / `TOGETHER, WE CAN MOVE MOUNTAINS.` / `ONE YEAR ONE IMPACT`. The
+period is part of the voice — it lands the phrase.
 
 ## The system
 
-| Role | Latin | Arabic | Weights |
+| Role | Font | Weight | Case |
 | --- | --- | --- | --- |
-| Display | Source Serif 4 | Amiri | 600, 700 |
-| Text | IBM Plex Sans | IBM Plex Sans Arabic | 400, 500, 600 |
-| Figures | IBM Plex Sans (tabular) | IBM Plex Sans Arabic | 500, 600 |
+| Display | Bebas Neue (default) or Anton | 400 | UPPERCASE |
+| Subheading | Montserrat | 600 SemiBold | UPPERCASE or sentence |
+| Body | Montserrat | 400 Regular | Sentence case |
 
-Source Serif and Amiri share a calligraphic, humanist axis — both have real
-stroke modulation, so a bilingual headline holds together. IBM Plex Sans and IBM
-Plex Sans Arabic are designed as one family by the same foundry, so the text
-sizes need no optical correction at all.
+**Unresolved:** the brand boards disagree — two specify **Bebas Neue + Montserrat**,
+a third specifies **Anton + Poppins**. Both are vendored, and `tokens.css` carries
+`--r-display-alt` (Anton) and `--r-text-alt` (Poppins) so a piece can switch with
+one variable. The default is Bebas Neue + Montserrat since it appears on more of
+the boards.
 
-**Modern alternate**, for youth-facing and social formats where the serif reads
-too institutional: display becomes **IBM Plex Sans (600)** / **Tajawal (700)**.
-Keep the text pair unchanged. Pick one and hold it across a campaign; the two
-display options should not appear in the same series.
-
-All four families are open-licensed and on Google Fonts, so they're safe to embed
-in web output and to install for print work.
-
-## Optical correction for Arabic
-
-Arabic at the same nominal size reads smaller than Latin, because its x-height
-equivalent sits lower relative to the em box while the ascenders and descenders
-run further.
-
-- **Amiri**: set at **1.15×** the Latin display size.
-- **IBM Plex Sans Arabic**: set at **1.0×** — no correction; it is metrically
-  matched to IBM Plex Sans by design.
-- **Line height**: add roughly **0.15em** over the Latin value for any Arabic
-  text. Arabic diacritics and descenders collide at Latin leading.
-
-Never letter-space Arabic. Arabic letters connect, and tracking breaks the joins —
-this is not a stylistic preference, it renders the word malformed. Latin display
-can take `-0.02em` tracking; Arabic takes `0`.
+They are not interchangeable mid-campaign. Anton is heavier and wider with tighter
+counters; Bebas is lighter and narrower. Anton is the closer match to the weight
+of the largest reference headlines (`ONE YEAR ONE IMPACT`); Bebas suits denser
+layouts with more lines. Pick one per campaign and hold it.
 
 ## Scale
 
-A 1.25 ratio, which stays readable when a poster is scaled down to a phone-sized
-preview — the state in which most of this work is actually first seen.
+Display type here is genuinely huge — this is the most common thing to get wrong,
+because a headline sized like normal design work looks timid in this system.
+
+Sizes are given against the canvas's **short side** (`vmin`), not its height.
 
 | Step | Size | Use |
 | --- | --- | --- |
-| Display XL | 72px / 4.5rem | Poster headline, single line |
-| Display L | 57px / 3.5rem | Poster headline, two lines; slide title |
-| Display M | 46px / 2.875rem | Section opener |
-| Heading | 36px / 2.25rem | Subhead |
-| Lead | 29px / 1.8rem | Standfirst, pull quote |
-| Body | 23px / 1.45rem | Poster body |
-| Small | 18px / 1.125rem | Caption, credit |
-| Micro | 15px / 0.9375rem | Legal, URL, handle |
+| Hero | 15vmin per line | Poster headline. `ONE YEAR ONE IMPACT` is ~4 lines filling half the frame. |
+| Display L | 10vmin | Standard post headline, 2–4 lines |
+| Display M | 7vmin | Secondary headline, story frames |
+| Subhead | 2.2vmin | Montserrat SemiBold, uppercase, letterspaced |
+| Body | 1.8vmin | Montserrat Regular |
+| Caption | 1.3vmin | Labels under stat icons, credits |
 
-For **web and deck** output divide the display steps by ~1.6 — a 72px poster
-headline becomes ~45px on screen. The ratio and the roles carry over; only the
-absolute sizes change.
+Sizing in viewport units rather than fixed pixels is what makes one layout work
+as a 1080 square and an A3 print without re-tuning. **Use `vmin`, not `vh`** —
+a headline sized in `vh` grows with the frame's height while the line still has
+only the frame's width to fit into, so a square composition that looks right
+drives its headline through the artwork at 1080×1920. This is the single most
+common way a layout breaks when it is reformatted.
 
-## Setting bilingual layouts
+## Setting the display face
 
-Direction is a document property, not a styling flourish. Set `dir="rtl"` on the
-Arabic container and let the browser mirror the layout — do not fake it with
-`text-align: right`, which leaves punctuation and mixed Latin/numeral runs in the
-wrong order.
+- **Line height 0.85–0.95.** Condensed caps have no descenders to clear, and the
+  reference headlines are set tight enough that the lines nearly touch. Default
+  leading (1.2+) makes the block look loose and unbranded.
+- **Letter-spacing 0 to -0.01em.** Bebas and Anton are already condensed; tracking
+  them in undoes the point.
+- **Ragged right, left aligned.** Never centered, never justified.
+- **Break lines for meaning**, not to fill the measure — `TOGETHER,` / `WE CAN` /
+  `MOVE MOUNTAINS.` reads as three beats.
+- Mixed sizes inside one headline are on-brand: `SMALL ACTIONS,` large with
+  `BIG CHANGE.` small beside it.
 
-When both languages appear in one piece:
+## Subheads and body
 
-- **Arabic leads** unless the audience is explicitly international. It gets the
-  larger size or the earlier position, not equal billing — equal billing reads as
-  indecision.
-- Keep one shared baseline grid. The two languages should align at the top of the
-  block, not float independently.
-- Latin inside an Arabic run (a name, a URL, `Resala`) keeps LTR direction
-  automatically via Unicode bidi; don't wrap it in overrides unless it visibly
-  breaks.
-- Numerals: pick Western (`1234`) or Eastern Arabic (`١٢٣٤`) per piece and hold
-  it. Mixing them within one composition looks like an error rather than a choice.
+Montserrat SemiBold uppercase with **0.08–0.12em letter-spacing** for the small
+label lines (`365 DAYS OF SERVING. EMPOWERING. INSPIRING.`). This is the one place
+letter-spacing is wanted — it separates the label from the display type.
 
-## Web embed
+Body copy is Montserrat Regular, sentence case, line-height 1.6, in charcoal for
+paragraphs or royal for short lines. Keep to 45–75 characters per line.
 
-```css
-@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Amiri:wght@400;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap');
-```
+## The yellow underline
 
-For Artifacts, which block external requests, the fonts cannot be fetched — fall
-back to the stacks declared in `assets/tokens.css`, which name the families first
-and degrade to system serif/sans. Say so rather than shipping an artifact whose
-type silently differs from the poster it was derived from.
+The signature typographic mark: a hand-drawn yellow swipe under a headline or a
+key phrase. It is a **shape, not text decoration** — `text-decoration: underline`
+in yellow is not this. Draw it as an SVG path or a rotated block with slightly
+uneven ends, sitting below the baseline and running 60–90% of the last line's
+width. It should look brushed, not ruled.
+
+Yellow text on ivory is 1.62:1 and illegible — see `references/palette.md`.
+
+## If a piece needs Arabic
+
+Nothing in the reference material is bilingual; the brand as documented is
+English-only. If Arabic is required, **Cairo** is vendored as the companion — it
+shares the geometric, slightly condensed character of Montserrat and holds up at
+display weight, which Amiri-style Naskh faces would not next to Bebas.
+
+Arabic has no uppercase, so the all-caps display voice cannot be reproduced
+directly; carry the emphasis with weight (Cairo 700) and size instead. Set
+`dir="rtl"` on the container rather than faking alignment, add ~0.15em line-height
+over the Latin value, and never letter-space Arabic — it breaks the letter joins.
+
+Treat this as an extension, and confirm it against a real brand decision before
+shipping a bilingual campaign.

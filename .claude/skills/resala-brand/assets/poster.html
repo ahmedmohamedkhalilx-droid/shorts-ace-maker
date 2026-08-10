@@ -1,123 +1,280 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Resala poster template</title>
+<title>Resala AUC — square post template</title>
 <!-- Local fonts first: rendering must not depend on a network fetch, or a
      blocked request yields a fallback-font poster that looks almost right.
      Regenerate with scripts/vendor_fonts.py. -->
 <link rel="stylesheet" href="./fonts.css">
 <link rel="stylesheet" href="./tokens.css">
 <style>
-  /* Cream-ground poster: navy headline, one gold rule, navy footer band.
-     Sized for --preset portrait (1080x1350). The layout is proportional, so
-     the same file renders correctly at a3/a4 — only the root font-size scales. */
+  /* 1080x1080 square post, with a tall-format branch at the bottom of this
+     stylesheet. Everything is sized in vmin — against the canvas's short side —
+     so the same file renders correctly as a square, a portrait, a 1080x1920
+     story, or A3 at 300dpi. */
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  /* Type is sized against the frame width, not in fixed pixels, so this one
-     file renders at identical proportions from 1080px social up to A3 at
-     300dpi. Fixed px would leave the poster looking empty at print sizes. */
-  html { font-size: 2.2vw; }
 
   body {
     width: 100vw;
     height: 100vh;
-    background: var(--r-cream);
-    color: var(--r-navy);
-    font-family: var(--r-arabic-text);
-    display: flex;
-    flex-direction: column;
+    background: var(--r-ivory);
+    font-family: var(--r-text);
     overflow: hidden;
+    position: relative;
   }
 
-  .stage {
-    flex: 1;
-    padding: var(--r-margin);
-    display: flex;
-    flex-direction: column;
-    /* Anchor the text block low, against the footer band. Centring it leaves
-       matched gaps top and bottom, which reads as an accident; a deliberate
-       open field above the headline reads as composition. */
-    justify-content: flex-end;
-    gap: var(--r-space-3);
-    padding-bottom: var(--r-space-8);
+  /* Paper grain. Subtle — it should read as stock, not as a texture effect. */
+  .grain {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.5;
+    mix-blend-mode: multiply;
+    background-image:
+      radial-gradient(rgba(27,31,35,0.05) 1px, transparent 1px),
+      radial-gradient(rgba(27,31,35,0.04) 1px, transparent 1px);
+    background-size: 3px 3px, 5px 5px;
+    background-position: 0 0, 2px 2px;
+    z-index: 6;
   }
 
-  .eyebrow {
-    font-size: var(--r-small);
+  /* Torn paper fields are inline SVG, not divs: the irregular edge is the
+     whole point, and a straight-edged div is how this system gets flattened
+     into something generic. They bleed off the frame rather than floating. */
+  /* Two stacked bands rather than two side-by-side blocks: a field whose left
+     edge is a straight vertical line leaves a hard seam that reads as a mistake.
+     Both bleed past the frame on each side. */
+  .field { position: absolute; z-index: 1; left: -2%; width: 104%; }
+  .field--sky   { bottom: 0; height: 34%; }
+  .field--royal { bottom: 0; height: 21%; z-index: 2; }
+
+  /* Photo slot. Swap the background-image on .r-duotone img for a real photo;
+     the duotone mapping is defined in tokens.css. */
+  .photo {
+    position: absolute;
+    right: 4%;
+    top: 26%;
+    width: 44%;
+    height: 42%;
+    z-index: 3;
+    /* Torn cutout edge */
+    clip-path: polygon(
+      6% 2%, 22% 0, 39% 4%, 58% 1%, 74% 5%, 91% 2%, 100% 9%,
+      97% 26%, 100% 44%, 96% 61%, 99% 78%, 94% 93%, 79% 97%,
+      61% 100%, 44% 96%, 27% 99%, 11% 95%, 2% 87%,
+      5% 70%, 1% 52%, 4% 35%, 0 18%
+    );
+    background: linear-gradient(150deg, #35508f 0%, #0C2C80 45%, #8fb9dd 100%);
+  }
+  .photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(253,249,243,0.30) 30%, transparent 31%);
+    background-size: 1.1vmin 1.1vmin;
+  }
+  .photo-label {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-size: var(--r-caption);
     font-weight: 600;
-    letter-spacing: 0;
-    color: var(--r-gold-deep); /* gold at text weight — never --r-gold here */
+    letter-spacing: var(--r-subhead-tracking);
+    color: rgba(253,249,243,0.55);
+    text-transform: uppercase;
   }
 
-  h1 {
-    font-family: var(--r-arabic-display);
-    font-size: calc(var(--r-display-l) * 1.15); /* Arabic optical correction */
+  /* Halftone patch — a torn rectangle of dots, royal on ivory. */
+  /* Halftone patch sits on the sky band, clear of the headline and swipe. */
+  .dots {
+    position: absolute;
+    left: 5%; bottom: 22%;
+    width: 15%; height: 10%;
+    z-index: 3;
+    background-image: radial-gradient(var(--r-royal) 26%, transparent 27%);
+    background-size: 1.3vmin 1.3vmin;
+    opacity: 0.85;
+    clip-path: polygon(0 6%, 30% 0, 62% 5%, 100% 0, 96% 34%, 100% 68%, 94% 100%, 58% 95%, 26% 100%, 3% 93%);
+  }
+
+  /* Content sits above the paper. */
+  .content { position: relative; z-index: 5; height: 100%; padding: var(--r-margin); }
+
+  /* Logo lockup placeholder — replace with the real mark. */
+  .logo { display: flex; align-items: center; gap: 1.4vmin; }
+  .logo-mark {
+    width: 6.4vmin; height: 6.4vmin;
+    border: 0.42vmin solid var(--r-royal);
+    border-radius: 50%;
+    display: grid; place-items: center;
+  }
+  .logo-mark svg { width: 60%; height: 60%; }
+  .logo-type { line-height: 1; }
+  .logo-type b {
+    display: block;
+    font-family: var(--r-text);
     font-weight: 700;
-    /* Amiri carries tall ascenders and stacked diacritics; at Latin display
-       leading (~1.05) the fatha on one line lands on the letters above it. */
-    line-height: 1.45;
-    max-width: 16ch;
+    font-size: 2.6vmin;
+    letter-spacing: 0.06em;
+    color: var(--r-royal);
+  }
+  .logo-type span {
+    display: block;
+    font-size: 1.35vmin;
+    font-weight: 600;
+    letter-spacing: 0.42em;
+    color: var(--r-royal);
   }
 
-  /* The one gold element: a rule under the headline, width of the text block. */
-  .rule {
-    width: 38%;
-    height: var(--r-rule);
-    background: var(--r-gold);
+  .kicker {
+    position: absolute;
+    right: var(--r-margin); top: var(--r-margin);
+    text-align: right;
+    max-width: 30%;
+  }
+  .kicker p {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--r-subhead-tracking);
+    font-size: var(--r-subhead);
+    line-height: 1.5;
+    color: var(--r-royal);
   }
 
-  .body {
-    font-size: var(--r-body);
-    line-height: 1.75;
-    max-width: 34ch; /* Arabic reads long; keep lines short */
-    color: var(--r-navy);
+  .headline {
+    position: absolute;
+    left: var(--r-margin);
+    top: 22%;
+    max-width: 58%;
+  }
+  h1 {
+    font-family: var(--r-display);
+    font-weight: 400;
+    text-transform: uppercase;
+    /* Condensed caps have no descenders to clear; default leading makes the
+       block look loose and unbranded. */
+    line-height: var(--r-display-leading);
+    letter-spacing: var(--r-display-tracking);
+    font-size: var(--r-hero);
+    color: var(--r-royal);
+  }
+  /* Mixed sizes inside one headline are on-brand, but the smaller line has to
+     sit tight under the larger one. Leaving it inside the h1 gives it a line
+     box sized by the hero font, which opens a gap and breaks the block apart. */
+  .sub-display {
+    font-family: var(--r-display);
+    font-weight: 400;
+    text-transform: uppercase;
+    line-height: var(--r-display-leading);
+    letter-spacing: var(--r-display-tracking);
+    font-size: calc(var(--r-hero) * 0.46);
+    color: var(--r-royal);
+    margin-top: 0.6vmin;
   }
 
-  /* Latin inside an RTL document keeps its own direction and family. */
-  .latin { font-family: var(--r-text); direction: ltr; unicode-bidi: isolate; }
+  /* The yellow underline is a drawn shape, not text-decoration: uneven ends,
+     brushed rather than ruled. */
+  .swipe { display: block; width: 58%; margin-top: 1.4vmin; }
+
+  /* Yellow on royal is 7.34:1, which is why the asterisk reads cleanly against
+     the band. Three marks total here — swipe, asterisk, halftone patch — since
+     one in every corner turns the layout to noise. */
+  .asterisk { position: absolute; right: 9%; bottom: 6%; width: 8%; z-index: 4; }
 
   .footer {
-    background: var(--r-navy);
-    color: var(--r-cream);
-    padding: var(--r-space-3) var(--r-margin);
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--r-space-3);
+    position: absolute;
+    left: var(--r-margin); bottom: var(--r-margin);
+    z-index: 5;
+  }
+  /* Sits on the royal band, so it reverses to ivory (11.86:1). */
+  .footer p {
+    font-size: var(--r-caption);
+    font-weight: 600;
+    letter-spacing: var(--r-subhead-tracking);
+    text-transform: uppercase;
+    color: var(--r-ivory);
   }
 
-  .wordmark {
-    font-family: var(--r-arabic-display);
-    font-size: var(--r-heading);
-    font-weight: 700;
-    color: var(--r-cream);
-  }
-
-  .meta {
-    font-size: var(--r-micro);
-    color: var(--r-cream);
-    opacity: 0.8;
-    text-align: left;
-    direction: ltr;
+  /* Tall formats (story / Reel / Short). Platform chrome covers the top ~220px,
+     the bottom ~520px and the right ~160px of a 1080x1920 frame, so the working
+     area is offset toward the upper-left. Content centred in the raw frame ends
+     up underneath the caption and the action rail. */
+  @media (max-aspect-ratio: 4/5) {
+    .headline { top: 17%; max-width: 72%; }
+    .photo { top: 34%; height: 26%; width: 48%; right: 9%; }
+    .kicker { max-width: 42%; }
+    .field--sky { height: 26%; }
+    .field--royal { height: 16%; }
+    /* Marks hug the photo rather than floating in open ivory — an isolated
+       mark in the middle of a field reads as leftover, not as composition. */
+    .swipe { width: 46%; }
+    .dots { top: 62%; bottom: auto; left: 10%; width: 18%; height: 7%; }
+    .asterisk { top: 29%; bottom: auto; right: 4%; width: 9%; }
+    .footer { bottom: 29%; }
+    .footer p { color: var(--r-royal); }
   }
 </style>
 </head>
 <body>
-  <main class="stage">
-    <p class="eyebrow">حملة التبرع السنوية</p>
-    <h1>كل مساهمة تصنع فرقًا حقيقيًا</h1>
-    <div class="rule"></div>
-    <p class="body">
-      انضم إلى آلاف المتطوعين الذين يقدمون الدعم لأسر تحتاج إليه، في أكثر من
-      ستين فرعًا حول الجمهورية.
-    </p>
-  </main>
 
-  <footer class="footer">
-    <span class="wordmark">رسالة</span>
-    <span class="meta latin">resala.org &middot; @resala</span>
-  </footer>
+  <!-- Torn fields, bleeding off the lower edges. Paths generated by
+       scripts/torn_path.py — evenly spaced points read as a geometric zigzag
+       rather than as torn paper. The ivory lip behind each field is the frayed
+       white edge a real tear leaves. -->
+  <svg class="field field--sky" viewBox="0 0 620 420" preserveAspectRatio="none" aria-hidden="true">
+    <g transform="translate(0,-7)"><path fill="#FDF9F3" d="M0.0,108.2 L21.5,104.8 L36.1,58.3 L55.1,89.4 L78.9,111.0 L106.4,64.4 L139.2,100.0 L167.6,60.7 L194.1,129.5 L226.8,100.9 L259.8,92.5 L281.9,112.3 L316.2,126.8 L332.4,90.7 L355.4,118.3 L380.0,116.2 L406.3,93.2 L434.9,95.2 L470.5,124.0 L503.1,93.2 L529.1,122.1 L561.1,119.0 L575.6,89.7 L590.7,113.8 L607.3,98.9 L620.0,116.6 L620.0,420.0 L0,420.0 Z"/></g>
+    <path fill="#A7D4F2" d="M0.0,108.2 L21.5,104.8 L36.1,58.3 L55.1,89.4 L78.9,111.0 L106.4,64.4 L139.2,100.0 L167.6,60.7 L194.1,129.5 L226.8,100.9 L259.8,92.5 L281.9,112.3 L316.2,126.8 L332.4,90.7 L355.4,118.3 L380.0,116.2 L406.3,93.2 L434.9,95.2 L470.5,124.0 L503.1,93.2 L529.1,122.1 L561.1,119.0 L575.6,89.7 L590.7,113.8 L607.3,98.9 L620.0,116.6 L620.0,420.0 L0,420.0 Z"/>
+  </svg>
+
+  <svg class="field field--royal" viewBox="0 0 580 400" preserveAspectRatio="none" aria-hidden="true">
+    <g transform="translate(0,-7)"><path fill="#FDF9F3" d="M0.0,102.4 L41.4,104.5 L73.5,104.3 L106.8,120.9 L131.2,56.3 L166.2,51.3 L208.7,100.2 L229.0,64.4 L246.6,115.0 L263.4,107.2 L302.6,99.2 L332.3,106.5 L355.9,85.2 L395.0,112.1 L417.3,121.8 L454.3,91.1 L480.9,91.0 L496.9,88.6 L525.8,108.9 L543.7,93.8 L567.1,70.0 L580.0,95.6 L580.0,400.0 L0,400.0 Z"/></g>
+    <path fill="#0C2C80" d="M0.0,102.4 L41.4,104.5 L73.5,104.3 L106.8,120.9 L131.2,56.3 L166.2,51.3 L208.7,100.2 L229.0,64.4 L246.6,115.0 L263.4,107.2 L302.6,99.2 L332.3,106.5 L355.9,85.2 L395.0,112.1 L417.3,121.8 L454.3,91.1 L480.9,91.0 L496.9,88.6 L525.8,108.9 L543.7,93.8 L567.1,70.0 L580.0,95.6 L580.0,400.0 L0,400.0 Z"/>
+  </svg>
+
+  <!-- Duotone photo cutout. Replace the background with a real image wrapped
+       in .r-duotone (see tokens.css). -->
+  <div class="photo"><span class="photo-label">duotone photo</span></div>
+
+  <div class="dots" aria-hidden="true"></div>
+
+  <!-- Hand-drawn marks: uneven, never geometrically perfect. Two or three per
+       composition — one in every corner turns the layout to noise. -->
+  <svg class="asterisk" viewBox="0 0 100 100" aria-hidden="true">
+    <g stroke="#EAC262" stroke-width="11" stroke-linecap="round">
+      <path d="M50 8 L50 92"/><path d="M14 22 L86 78"/><path d="M86 22 L14 78"/>
+    </g>
+  </svg>
+
+  <div class="content">
+    <div class="logo">
+      <span class="logo-mark">
+        <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          <circle cx="17" cy="11" r="5" fill="#0C2C80"/>
+          <circle cx="33" cy="11" r="5" fill="#0C2C80"/>
+          <path d="M17 18 v12 M33 18 v12 M17 24 h16 M12 42 l5-12 M22 42 l-5-12 M28 42 l5-12 M38 42 l-5-12"
+                stroke="#0C2C80" stroke-width="3.4" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="logo-type"><b>RESALA</b><span>AUC</span></span>
+    </div>
+
+    <div class="kicker"><p>365 days of serving.<br>Empowering.<br>Inspiring.</p></div>
+
+    <div class="headline">
+      <h1>Small actions,</h1>
+      <p class="sub-display">Big change.</p>
+      <svg class="swipe" viewBox="0 0 300 18" fill="none" aria-hidden="true">
+        <path d="M4 12 C60 4, 118 15, 174 8 C222 2, 262 11, 296 6"
+              stroke="#EAC262" stroke-width="9" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <div class="footer"><p>resala-auc.com</p></div>
+  </div>
+
+  <div class="grain" aria-hidden="true"></div>
 </body>
 </html>

@@ -1,100 +1,120 @@
 ---
 name: resala-brand
-description: Applies the Resala visual identity — navy/gold/cream palette, bilingual Arabic/Latin typography, and layout rules — to any visual output. Use this whenever producing something that carries Resala's identity: posters, social graphics, story/Shorts frames, slide decks, one-pagers, reports, landing pages, HTML artifacts, charts, or campaign assets. Trigger it for requests mentioning Resala, رسالة, "our brand", "brand colors", "on-brand", "campaign", "poster", "donation drive", "volunteer", or any bilingual Arabic/English design work, and also when the user asks for a visual deliverable without naming the brand but the context is clearly Resala's. Prefer this over generic design defaults; the palette and type here replace whatever colors and fonts would otherwise be picked.
+description: Applies the Resala AUC visual identity — royal blue / sky / sunshine yellow / warm ivory palette, huge condensed display type, and the torn-paper collage style — to any visual output. Use this whenever producing something that carries Resala AUC's identity: Instagram posts and stories, posters, Reels/Shorts frames, slide decks, one-pagers, reports, landing pages, HTML artifacts, charts, recruitment or donation campaign assets. Trigger it for requests mentioning Resala, رسالة, "our brand", "brand colors", "on-brand", "campaign", "poster", "social post", "story", "donation drive", "volunteer", or any visual deliverable where the context is clearly Resala AUC's, even when the brand is not named. Prefer this over generic design defaults; the palette, type and collage treatment here replace whatever colors, fonts and layout would otherwise be picked.
 ---
 
-# Resala brand
+# Resala AUC brand
 
-This skill encodes the identity used across Resala's poster and campaign work so
-that anything produced — print, social, deck, or web — looks like it came from
-the same organisation. The system is deliberately narrow: three colors doing
-three separate jobs, one bilingual type pairing, and square-cornered layouts.
+Resala AUC is a student volunteer organisation, and the identity is built to look
+hand-made: **torn paper collage** on warm ivory, duotone documentary photography,
+and enormous royal-blue condensed capitals, punctuated by a few hand-drawn yellow
+marks.
 
-Most of the value is in the constraints. Reach for the reference files rather
-than improvising, because the failure mode here isn't ugliness — it's producing
-something perfectly competent that could belong to any charity.
+The most common way to get this wrong is to produce a clean, flat, competent
+layout that happens to use the right hex values. **Right palette plus wrong
+texture is still off-brand.** The torn edges, the paper grain, the duotone and the
+oversized headline are not decoration on top of the brand — they *are* the brand.
 
 ## Start here
 
-1. **Determine format and language.** Print poster, social, vertical video frame,
-   deck, or web? Arabic-only, bilingual, or Latin-only? These two answers drive
-   every other choice, and the vertical-video safe areas in particular are easy
-   to get wrong in a way that only shows up on the platform.
-2. **Read `references/palette.md`** before choosing any color.
-3. **Read `references/typography.md`** whenever Arabic is involved — Arabic needs
-   optical size correction, looser leading, and zero tracking, and skipping this
-   is the most visible tell of a non-native layout.
-4. **Read `references/layouts.md`** for grid, composition patterns, and the
-   safe areas for story/Shorts output.
+1. **Determine format.** Square post, portrait post, story/Reel/Short, print
+   poster, or deck? The vertical safe areas in particular are easy to get wrong
+   in a way that only shows on the platform.
+2. **Read `references/layouts.md`** — the five-move collage recipe, the torn-paper
+   rules, the mark vocabulary, and the safe areas. This is the most important file.
+3. **Read `references/palette.md`** before choosing any color.
+4. **Read `references/typography.md`** before setting the headline. Display sizing
+   here is far larger than ordinary design work, and getting it timid is the
+   second most common failure.
 
 ## The short version
 
-Navy `#0F2A4A` is ink and dark ground. Cream `#F6F1E4` is light ground. Gold
-`#C9A227` is the accent and nothing else — roughly 60/30/10 by area.
+**Colors.** Royal blue `#0C2C80` is the brand — headlines, wordmark, icons, dark
+grounds. Warm ivory `#FDF9F3` is the paper. Sky blue `#A7D4F2` and sunshine yellow
+`#EAC262` appear as *shapes*, never as type: on ivory they measure 1.50:1 and
+1.62:1 and are simply invisible as text. Charcoal `#1B1F23` is for long-form body
+copy only — headlines are royal, not charcoal.
 
-The single most common mistake: **gold text on cream is 2.15:1 and illegible.**
-Gold on cream works as a shape — a rule, a border, a filled block with navy type
-inside it — never as type. When a headline on cream must be gold, use
-`--r-gold-deep` (5.53:1). All pairings and their measured ratios are in
-`references/palette.md`.
+When yellow needs to carry words, set royal type *on* a yellow block (7.34:1).
 
-Type is **Source Serif 4 / Amiri** for display and **IBM Plex Sans / IBM Plex
-Sans Arabic** for text. Arabic set in Amiri needs 1.15× the Latin size to look
-optically equal, and about 0.15em more line-height. Never letter-space Arabic —
-it breaks the letter joins and renders words malformed.
+**Type.** Huge condensed uppercase display — Bebas Neue by default, Anton as the
+documented alternate — with Montserrat for subheads and body. Line height
+0.85–0.95, left aligned, ragged right, broken for meaning. Headlines are short
+declaratives with a full stop: `SERVE. EMPOWER. INSPIRE.`
 
-Square corners (`--r-radius: 0`), no gradients, no drop shadows. The palette
-carries the work.
+**Texture.** Torn-paper fields that bleed off the frame, duotone photos cut out
+along a rough edge, halftone dot patches, paper grain, and two or three yellow
+marks — an underline swipe, a six-pointed asterisk, a squiggle or arrow.
 
 ## Building something
 
-Import `assets/tokens.css` rather than re-declaring hexes, so a piece can be
-retuned centrally. Start from `assets/poster.html`, which is a working
-cream-ground bilingual poster demonstrating the RTL setup, the optical
-correction, and the single-gold-element rule.
+Start from `assets/poster.html` — a working square post that demonstrates the
+whole system: stacked torn bands with the ivory lip, the duotone photo slot, the
+headline block, the halftone patch and the marks. Import `assets/tokens.css`
+rather than re-declaring hexes.
 
 ```bash
 # Fonts are vendored locally, so rendering never depends on a network fetch.
-# Run once (or after changing the type system):
+# Run once, or after changing the type system:
 python scripts/vendor_fonts.py
 
+# Generate an irregular torn edge. Evenly spaced points read as a geometric
+# sawtooth rather than torn paper — always generate, never hand-write:
+python scripts/torn_path.py --width 620 --height 420 --seed 3
+
 # HTML -> PNG/PDF at exact pixel dimensions:
-node scripts/render.mjs poster.html --out build/poster --preset portrait
-node scripts/render.mjs poster.html --out build/short --preset short
+node scripts/render.mjs post.html --out build/post --preset square
+node scripts/render.mjs post.html --out build/story --preset short
 node scripts/render.mjs poster.html --out build/print --preset a3 --pdf
 ```
 
-Presets: `a3`, `a4`, `portrait` (1080×1350), `square`, `short` (1080×1920),
-`deck` (1920×1080).
+Presets: `square` (1080²), `portrait` (1080×1350), `short` (1080×1920), `a3`,
+`a4`, `deck` (1920×1080).
 
-Size type in `vw` rather than fixed pixels, as the template does. That way one
-file renders at correct proportions from a 1080px social crop up to A3 at 300dpi;
-fixed pixel sizes leave a poster looking sparse and under-set at print dimensions.
+Size type in **`vmin`** as the template does, never fixed pixels and never `vh`.
+Sizing against the short side is what lets one file serve a square, a 1080×1920
+story and A3 at 300dpi; `vh` grows the headline with the frame's height while the
+line still has only its width to fit in, so a square layout that looks right
+drives its headline straight through the artwork when the frame goes vertical.
+
+**Always render and look at the result before calling a design done.** Collage
+layouts fail in ways that are obvious in the image and invisible in the markup:
+marks colliding with text, a field's straight edge leaving a hard seam, a photo
+cutout overlapping a headline.
 
 ## After changing any color
 
 Run `python scripts/check_contrast.py`. The rules in this skill are statements
-about specific hex values — if a swatch is retuned, the rules have to be
-re-derived rather than assumed to still hold. The script checks every documented
-pairing, including asserting that gold-on-cream still *fails* (which is why it's
-decoration-only).
+about specific hex values — if a swatch is retuned they have to be re-derived. The
+script checks every documented pairing, including asserting that yellow-on-ivory
+and sky-on-ivory still *fail*, which is why both are shapes-only.
+
+## Two things to settle
+
+The reference boards disagree with themselves, so both are supported and neither
+should be treated as decided:
+
+- **Display font**: two boards specify Bebas Neue + Montserrat, a third specifies
+  Anton + Poppins. Default is Bebas Neue + Montserrat; `--r-display-alt` and
+  `--r-text-alt` hold the others. Pick one per campaign and hold it — Anton is
+  heavier and wider, and the two do not mix.
+- **Sky blue**: `#A7D4F2` on one board, `#BFE1F2` on another. Default is
+  `#A7D4F2`, with `--r-sky-alt` holding the lighter value. Both pass contrast.
 
 ## Artifacts and web output
 
 Artifacts block all external requests, so webfonts cannot be fetched there.
 Generate `assets/fonts.inline.css` with `python scripts/vendor_fonts.py --inline`
-and paste the needed faces inline, or accept the system fallbacks declared in
-`tokens.css` and say so — shipping an artifact whose type silently differs from
-the poster it was derived from is worse than naming the limitation.
+and inline the faces needed, or accept the system fallbacks declared in
+`tokens.css` and say so — an artifact whose type silently differs from the poster
+it came from is worse than a named limitation.
 
-For screen output, divide the poster display sizes by ~1.6; the ratio and roles
-carry over unchanged.
+The collage elements are all CSS and inline SVG, so they carry into artifacts
+intact.
 
-## Adapting this to the real brand book
+## Arabic
 
-The palette here is the navy/gold/cream system as used in the poster work, not a
-transcription of an official Resala brand manual. If an official book exists, its
-values take precedence: replace the hexes in `assets/tokens.css` and the `PALETTE`
-dict in `scripts/check_contrast.py`, re-run the contrast check, and update the
-ratio table in `references/palette.md` with the new measurements. Everything else
-in the system — proportions, bilingual rules, layout patterns — carries over.
+Nothing in the reference material is bilingual; the brand as documented is
+English-only. `references/typography.md` covers what to do if a piece needs
+Arabic (Cairo is vendored as the companion), but treat that as an extension to
+confirm rather than an established part of the identity.
