@@ -58,7 +58,18 @@
   /* Marks: asterisk, two halftone patches, an arrow. Three or four total —
      one in every corner turns the layout to noise. */
   .asterisk { position: absolute; top: 11%; right: 11%; width: 13%; z-index: 5; }
-  .arrow    { position: absolute; bottom: 11%; left: 12%; width: 17%; z-index: 5; }
+  .arrow    { position: absolute; bottom: 10%; left: 11%; width: 20%; z-index: 5; }
+
+  /* Logo lockup, centred on the plate near the top, as in the reference.
+     Swap assets/logo.svg for the official file — nothing here changes. */
+  .logo {
+    position: absolute;
+    top: 8.5%; left: 50%;
+    transform: translateX(-50%);
+    width: 20%;
+    z-index: 6;
+  }
+  .logo img { display: block; width: 100%; height: auto; }
 
   .dots {
     position: absolute;
@@ -108,6 +119,8 @@
       <path fill="#FDF9F3" d="M0.0,15.9 L60.0,-10.1 L120.0,37.0 L180.0,1.7 L240.0,33.7 L300.0,2.7 L360.0,19.2 L420.0,15.4 L480.0,43.7 L540.0,-7.2 L600.0,-11.8 L660.0,22.6 L720.0,31.5 L780.0,-4.8 L840.0,10.5 L877.1,0.0 L877.3,105.0 L911.2,210.0 L878.3,315.0 L900.1,420.0 L890.9,525.0 L886.5,630.0 L863.4,735.0 L886.9,840.0 L895.0,945.0 L866.1,1050.0 L877.8,1155.0 L897.4,1260.0 L896.9,1365.0 L881.7,1470.0 L886.5,1575.0 L900.0,1657.6 L852.6,1646.4 L805.3,1675.4 L757.9,1659.9 L710.5,1675.3 L663.2,1663.9 L615.8,1681.3 L568.4,1656.8 L521.1,1673.5 L473.7,1686.7 L426.3,1666.7 L378.9,1634.5 L331.6,1663.2 L284.2,1666.0 L236.8,1674.6 L189.5,1689.1 L142.1,1658.8 L94.7,1633.0 L47.4,1683.0 L-6.8,1680.0 L11.0,1527.3 L0.0,1374.5 L23.3,1221.8 L-7.2,1069.1 L2.9,916.4 L37.1,763.6 L38.4,610.9 L51.9,458.2 L-5.9,305.5 L22.6,152.7 Z"/>
     </g>
   </svg>
+
+  <div class="logo"><img src="./logo.svg" alt="Resala AUC"></div>
 
   <div class="dots dots--l" aria-hidden="true"></div>
   <div class="dots dots--r" aria-hidden="true"></div>
