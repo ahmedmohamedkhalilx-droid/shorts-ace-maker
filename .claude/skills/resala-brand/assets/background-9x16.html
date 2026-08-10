@@ -60,8 +60,9 @@
   .asterisk { position: absolute; top: 11%; right: 11%; width: 13%; z-index: 5; }
   .arrow    { position: absolute; bottom: 10%; left: 11%; width: 20%; z-index: 5; }
 
-  /* Logo lockup, centred on the plate near the top, as in the reference.
-     Swap assets/logo.svg for the official file — nothing here changes. */
+  /* Official logo badge, centred on the plate near the top as in the reference.
+     assets/logo.png is the supplied mark, circle-cropped with an alpha channel
+     so its original cream ground does not sit as a square on the artwork. */
   .logo {
     position: absolute;
     top: 8.5%; left: 50%;
@@ -120,7 +121,7 @@
     </g>
   </svg>
 
-  <div class="logo"><img src="./logo.svg" alt="Resala AUC"></div>
+  <div class="logo"><img src="./logo.png" alt="Resala AUC"></div>
 
   <div class="dots dots--l" aria-hidden="true"></div>
   <div class="dots dots--r" aria-hidden="true"></div>
